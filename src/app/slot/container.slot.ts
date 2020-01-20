@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {TransformNode, Vector3} from '@babylonjs/core';
-import {SlotBox} from './slot-box';
-import {Dimensions, SlotTransformNode, SlotType} from './slot-transform';
-import {SlotFactory} from '../services/slot-factory.service';
+import {BoxSlot} from './box.slot';
+import {Dimensions, SlotTransformNode, SlotType} from './transform-node.slot';
+import {SlotFactory} from '../services/slot.factory';
 
 
 export interface SlotContainerStack {
@@ -13,15 +13,15 @@ export interface SlotContainerStack {
     createStack();
 }
 
-export function slotContainerStackBehavior(parent: SlotContainer) {
+export function slotContainerStackBehavior(parent: ContainerSlot) {
     const stackDim = {
         ...parent.dimensions,
         height: parent.dimensions.height / 2 - 0.35,
         position: new Vector3(0, -parent.dimensions.height / 2 / 2, 0),
     };
-    parent.slotFactory.create(SlotBox, stackDim, parent.name + 'stack', SlotType.Box, parent);
+    parent.slotFactory.create(BoxSlot, stackDim, parent.name + 'stack', SlotType.Box, parent);
 
-    parent.slotFactory.create(SlotBox, {
+    parent.slotFactory.create(BoxSlot, {
         ...parent.dimensions,
         height: parent.dimensions.height / 2,
         position: new Vector3(0, +parent.dimensions.height / 2 / 2, 0),
@@ -29,7 +29,7 @@ export function slotContainerStackBehavior(parent: SlotContainer) {
 }
 
 @Injectable()
-export class SlotContainer extends SlotTransformNode implements SlotContainerStack {
+export class ContainerSlot extends SlotTransformNode implements SlotContainerStack {
 
     init(dimensions: Dimensions, name: string, slotType: SlotType) {
         this.dimensions = dimensions;
@@ -52,7 +52,7 @@ export class SlotContainer extends SlotTransformNode implements SlotContainerSta
         switch (this.slotType) {
             case SlotType.Box:
                 this.slotFactory.create(
-                    SlotBox,
+                    BoxSlot,
                     { ...this.dimensions, position: Vector3.Zero() },
                     this.name + 'Box', SlotType.Box, this,
                 ).addLight();

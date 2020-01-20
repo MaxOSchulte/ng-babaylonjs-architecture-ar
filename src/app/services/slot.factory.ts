@@ -1,7 +1,7 @@
 import {FactorySansProvider, Inject, Injectable, InjectionToken, Injector, Type, ValueProvider} from '@angular/core';
 import {TransformNode} from '@babylonjs/core';
-import {Dimensions, SlotTransformNode, SlotType} from '../slot/slot-transform';
-import {SceneContext} from './scene-context.service';
+import {Dimensions, SlotTransformNode, SlotType} from '../slot/transform-node.slot';
+import {SceneContext} from './scene.context';
 
 
 interface ResolvedFactory<T> {

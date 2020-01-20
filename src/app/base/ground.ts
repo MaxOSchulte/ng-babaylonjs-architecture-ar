@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {MeshBuilder} from '@babylonjs/core';
 import {MaterialService} from '../services/material.service';
-import {SceneContext} from '../services/scene-context.service';
-import {SlotFactory} from '../services/slot-factory.service';
-import {Dimensions, SlotTransformNode, SlotType} from '../slot/slot-transform';
+import {SceneContext} from '../services/scene.context';
+import {SlotFactory} from '../services/slot.factory';
+import {Dimensions, SlotTransformNode, SlotType} from '../slot/transform-node.slot';
 
 @Injectable({
     providedIn: 'root',

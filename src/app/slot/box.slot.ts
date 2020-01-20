@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {BoxBuilder, Mesh, MeshBuilder, Vector3} from '@babylonjs/core';
 import {LightService} from '../services/light.service';
 import {MaterialService} from '../services/material.service';
-import {SceneContext} from '../services/scene-context.service';
-import {SlotFactory} from '../services/slot-factory.service';
-import {Dimensions, SlotTransformNode, SlotType} from './slot-transform';
+import {SceneContext} from '../services/scene.context';
+import {SlotFactory} from '../services/slot.factory';
+import {Dimensions, SlotTransformNode, SlotType} from './transform-node.slot';
 
 
 export interface Lightable {
@@ -33,7 +33,7 @@ export function decalSlotBehavior(parent: DecalSlot) {
         // this.decal.parent = this;
     }
 }
-export function removeDecalSlotBehavior(parent: SlotBox) {
+export function removeDecalSlotBehavior(parent: BoxSlot) {
   parent.decal.dispose();
   parent.decal = undefined;
 }
@@ -42,7 +42,7 @@ export interface ContainerSlot {
     fillSlot(meshes: SlotTransformNode);
 }
 
-export function fillSlotBehavior(parent: SlotBox) {
+export function fillSlotBehavior(parent: BoxSlot) {
     if (parent.meshes.length) {
         parent.meshes.forEach(m => m.dispose());
         parent.meshes.length = 0;
@@ -58,7 +58,7 @@ export function fillSlotBehavior(parent: SlotBox) {
 
 
 @Injectable()
-export class SlotBox extends SlotTransformNode implements DecalSlot, Lightable, ContainerSlot {
+export class BoxSlot extends SlotTransformNode implements DecalSlot, Lightable, ContainerSlot {
 
     decal: Mesh;
     readonly meshes: Mesh[] = [];

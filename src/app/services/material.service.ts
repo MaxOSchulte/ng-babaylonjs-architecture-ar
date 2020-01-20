@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Color3, Material, StandardMaterial, Texture} from '@babylonjs/core';
 import {ACTIVE_MATERIAL_PREFIX, MATERIAL_POSTFIX} from '../constants';
-import {SceneContext} from './scene-context.service';
+import {SceneContext} from './scene.context';
 
 @Injectable({
     providedIn: 'root',

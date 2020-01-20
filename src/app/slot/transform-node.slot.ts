@@ -1,6 +1,6 @@
 import {TransformNode, Vector3} from '@babylonjs/core';
-import {SceneContext} from '../services/scene-context.service';
-import {SlotFactory} from '../services/slot-factory.service';
+import {SceneContext} from '../services/scene.context';
+import {SlotFactory} from '../services/slot.factory';
 
 export abstract class SlotTransformNode extends TransformNode {
     dimensions: Dimensions;

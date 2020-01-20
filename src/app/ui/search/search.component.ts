@@ -3,8 +3,8 @@ import {Color4, Material} from '@babylonjs/core';
 import {CameraService} from '../../services/camera.service';
 import {LightService} from '../../services/light.service';
 import {MaterialService} from '../../services/material.service';
-import {SceneContext} from '../../services/scene-context.service';
-import {SlotBox} from '../../slot/slot-box';
+import {SceneContext} from '../../services/scene.context';
+import {BoxSlot} from '../../slot/box.slot';
 
 @Component({
     selector: 'app-search',
@@ -13,7 +13,7 @@ import {SlotBox} from '../../slot/slot-box';
 })
 export class SearchComponent implements OnInit {
 
-    activeSlot: SlotBox;
+    activeSlot: BoxSlot;
     showVR = false;
     private inactiveMaterial: Material;
 
@@ -54,9 +54,9 @@ export class SearchComponent implements OnInit {
 
         this.clear(false);
         console.log('SEARCH', term);
-        const slots = this.scene.scene.transformNodes.filter(node => node instanceof SlotBox);
+        const slots = this.scene.scene.transformNodes.filter(node => node instanceof BoxSlot);
         const foundIdx = Math.floor(Math.random() * slots.length);
-        this.activeSlot = slots[foundIdx] as SlotBox;
+        this.activeSlot = slots[foundIdx] as BoxSlot;
         this.activeSlot.getChildMeshes()[0].edgesColor = new Color4(0, 0, 1, 1);
         this.activeSlot.getChildMeshes()[0].edgesWidth = 10;
         this.activeSlot.getChildMeshes()[0].enableEdgesRendering(.9999);

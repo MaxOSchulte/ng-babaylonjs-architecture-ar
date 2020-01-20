@@ -9,9 +9,9 @@ import {Bulb} from './base/bulb';
 import {Ground} from './base/ground';
 import {LightService} from './services/light.service';
 import {MaterialService} from './services/material.service';
-import {provideSlot} from './services/slot-factory.service';
-import {SlotContainer} from './slot/slot-container';
-import {SlotBox} from './slot/slot-box';
+import {provideSlot} from './services/slot.factory';
+import {ContainerSlot} from './slot/container.slot';
+import {BoxSlot} from './slot/box.slot';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchComponent } from './ui/search/search.component';
 
@@ -28,8 +28,8 @@ import { SearchComponent } from './ui/search/search.component';
         MatInputModule,
     ],
     providers: [
-        provideSlot(SlotContainer),
-        provideSlot(SlotBox, [LightService, MaterialService]),
+        provideSlot(ContainerSlot),
+        provideSlot(BoxSlot, [LightService, MaterialService]),
         provideSlot(Ground, [MaterialService]),
         provideSlot(Bulb, [LightService, MaterialService]),
 

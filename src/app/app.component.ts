@@ -3,12 +3,12 @@ import {Vector3} from '@babylonjs/core';
 import {Bulb} from './base/bulb';
 import {Ground} from './base/ground';
 import {SCALE} from './constants';
-import {EngineContext} from './services/engine-context.service';
+import {EngineContext} from './services/engine.context';
 import {LightService} from './services/light.service';
-import {SceneContext} from './services/scene-context.service';
-import {SlotFactory} from './services/slot-factory.service';
-import {SlotContainer} from './slot/slot-container';
-import {SlotType} from './slot/slot-transform';
+import {SceneContext} from './services/scene.context';
+import {SlotFactory} from './services/slot.factory';
+import {ContainerSlot} from './slot/container.slot';
+import {SlotType} from './slot/transform-node.slot';
 
 @Component({
     selector: 'app-root',
@@ -57,7 +57,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
                     x *= x < 0 ? c + 1 : c;
 
                     const boxDim = { ...dim, position: new Vector3(x, r * 2.2 + 1, n * 3).scale(5) };
-                    let box = this.slotFactory.create(SlotContainer, boxDim, 'Container' + '-' + r + n + c, SlotType.Random);
+                    let box = this.slotFactory.create(ContainerSlot, boxDim, 'Container' + '-' + r + n + c, SlotType.Random);
                 }
             }
         }

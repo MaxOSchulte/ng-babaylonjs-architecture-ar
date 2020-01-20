@@ -2,7 +2,7 @@ import {ElementRef, Injectable} from '@angular/core';
 import {Color3, Color4, Scene, SSAORenderingPipeline} from '@babylonjs/core';
 import '@babylonjs/inspector';
 import {CameraService} from './camera.service';
-import {EngineContext} from './engine-context.service';
+import {EngineContext} from './engine.context';
 import {LightService} from './light.service';
 
 

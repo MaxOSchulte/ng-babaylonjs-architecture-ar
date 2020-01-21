@@ -4,10 +4,10 @@
 <button mat-raised-button (click)="search(searchInput.value)">
     <mat-icon>search</mat-icon>
 </button>&nbsp;
-<button *ngIf="activeSlot" mat-raised-button (click)="clear()">
+<button *ngIf="searchContext.activeSlot" mat-raised-button (click)="clear()">
     <mat-icon>clear</mat-icon>
 </button>&nbsp;
-<button *ngIf="activeSlot" mat-raised-button (click)="goto()">
+<button *ngIf="searchContext.activeSlot" mat-raised-button (click)="goto()">
     <mat-icon>send</mat-icon>
 </button>&nbsp;
-<a *ngIf="showVR" mat-flat-button rel="ar" href="/assets/engine.usdz"><mat-icon>visibility</mat-icon></a>
+<a *ngIf="showARButton" mat-flat-button rel="ar" href="/assets/engine.usdz"><mat-icon>visibility</mat-icon></a>

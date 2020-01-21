@@ -1,64 +1,18 @@
 import {Injectable} from '@angular/core';
-import {BoxBuilder, Mesh, MeshBuilder, Vector3} from '@babylonjs/core';
+import {ActionManager, ExecuteCodeAction, Mesh, MeshBuilder} from '@babylonjs/core';
 import {LightService} from '../services/light.service';
 import {MaterialService} from '../services/material.service';
 import {SceneContext} from '../services/scene.context';
 import {SlotFactory} from '../services/slot.factory';
 import {Dimensions, SlotTransformNode, SlotType} from './transform-node.slot';
-
-
-export interface Lightable {
-    addLight();
-}
-
-export interface DecalSlot {
-    decal: Mesh;
-    dimensions: Dimensions;
-    meshes: Mesh[];
-    name: string;
-    removeDecal: () => void;
-    addDecal(parent: DecalSlot);
-}
-
-export function decalSlotBehavior(parent: DecalSlot) {
-    if (!parent.decal) {
-        parent.decal = Mesh.CreateDecal(
-            parent.name + 'decal',
-            parent.meshes[0],
-            parent.meshes[0].getAbsolutePosition().add(new Vector3(parent.dimensions.width / 2 + 0.01, 0, parent.dimensions.depth / 4)),
-            new Vector3(1, 0, 0),
-            new Vector3(3, 3, 3),
-            0);
-        parent.decal.material = this.materialService.getDecalMaterial();
-        // this.decal.parent = this;
-    }
-}
-export function removeDecalSlotBehavior(parent: BoxSlot) {
-  parent.decal.dispose();
-  parent.decal = undefined;
-}
-
-export interface ContainerSlot {
-    fillSlot(meshes: SlotTransformNode);
-}
-
-export function fillSlotBehavior(parent: BoxSlot) {
-    if (parent.meshes.length) {
-        parent.meshes.forEach(m => m.dispose());
-        parent.meshes.length = 0;
-    }
-
-    const box = BoxBuilder.CreateBox(parent.name + 'Mesh', { ...parent.dimensions }, parent.sceneContext.scene);
-    box.parent = this;
-    box.material = parent.materialService.getBoxMaterial(Math.random() > .5);
-    parent.lightService.addShadowCaster(box);
-    parent.meshes.push(box);
-}
-
+import {SearchContext} from '../services/search.context';
+import {DecalSlot, decalSlotBehavior, removeDecalSlotBehavior} from '../interfaces/decal.interface';
+import {ContainerSlot, fillSlotBehavior} from '../interfaces/fill-slot.interface';
+import {Lightable, Pickable} from '../interfaces/misc.interface';
 
 
 @Injectable()
-export class BoxSlot extends SlotTransformNode implements DecalSlot, Lightable, ContainerSlot {
+export class BoxSlot extends SlotTransformNode implements DecalSlot, Lightable, ContainerSlot, Pickable {
 
     decal: Mesh;
     readonly meshes: Mesh[] = [];
@@ -96,5 +50,9 @@ export class BoxSlot extends SlotTransformNode implements DecalSlot, Lightable, 
 
         const light2 = light.clone(this.name + 'light2');
         light2.position.x = light.position.x * -1;
+    }
+
+    enablePick(pickable: boolean) {
+        this.meshes[0].isPickable = pickable;
     }
 }

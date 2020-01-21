@@ -47,21 +47,14 @@ export class SceneContext {
         this.engineCtx.start(this.scene);
     }
 
-    enableVR(canvas: ElementRef<HTMLCanvasElement>) {
-        const vrHelper = this.scene.createDefaultVRExperience({
-            createDeviceOrientationCamera: true
-        });
-
-        vrHelper.teleportationEnabled = true;
-        vrHelper.enableInteractions();
-
-        vrHelper.onExitingVR.add(() => {
+    enableOrientationCamera(enable: boolean, canvas: ElementRef<HTMLCanvasElement>) {
+        if (!enable) {
             this.camera.resetActiveCamera(this.scene, canvas.nativeElement);
-        });
+        } else {
+            this.camera.useOrientationCamera();
+        }
 
-        vrHelper.onEnteringVRObservable.add(() => {
-            this.scene.activeCamera.position = this.camera.mainCamera.position;
-        });
+        return true;
     }
 
     displayDebugLayer() {

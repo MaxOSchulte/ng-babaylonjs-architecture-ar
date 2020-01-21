@@ -1,20 +1,14 @@
-import {
-    AfterViewInit,
-    Component,
-    ElementRef,
-    OnDestroy,
-    ViewChild
-} from '@angular/core';
-import { Vector3 } from '@babylonjs/core';
-import { Bulb } from './base/bulb';
-import { Ground } from './base/ground';
-import { SCALE } from './constants';
-import { EngineContext } from './services/engine.context';
-import { LightService } from './services/light.service';
-import { SceneContext } from './services/scene.context';
-import { SlotFactory } from './services/slot.factory';
-import { ContainerSlot } from './slot/container.slot';
-import { SlotType } from './slot/transform-node.slot';
+import {AfterViewInit, Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
+import {Vector3} from '@babylonjs/core';
+import {Bulb} from './base/bulb';
+import {Ground} from './base/ground';
+import {SCALE} from './constants';
+import {EngineContext} from './services/engine.context';
+import {LightService} from './services/light.service';
+import {SceneContext} from './services/scene.context';
+import {SlotFactory} from './services/slot.factory';
+import {ContainerSlot} from './slot/container.slot';
+import {SlotType} from './slot/transform-node.slot';
 
 @Component({
     selector: 'app-root',
@@ -24,9 +18,9 @@ import { SlotType } from './slot/transform-node.slot';
 export class AppComponent implements AfterViewInit, OnDestroy {
     title = 'babylonjs-architecture';
 
-    @ViewChild('rCanvas', { static: true })
+    @ViewChild('rCanvas', {static: true})
     canvasRef: ElementRef<HTMLCanvasElement>;
-
+    orientationCam: boolean;
     private readonly numberOfBoxes = 5;
     private readonly colsOfBoxes = 6;
     private readonly rowsOfBoxes = 4;
@@ -36,14 +30,15 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         private scene: SceneContext,
         private readonly slotFactory: SlotFactory,
         private readonly lightService: LightService
-    ) {}
+    ) {
+    }
 
     ngAfterViewInit(): void {
         this.scene.createMyScene(this.canvasRef);
         this.createBoxes();
         this.slotFactory.create(
             Ground,
-            { width: 100 * SCALE, height: 50 * SCALE },
+            {width: 100 * SCALE, height: 50 * SCALE},
             'Ground',
             SlotType.Ground
         );
@@ -100,7 +95,14 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         this.engine.stop();
     }
 
+    requestTouch() {
+        this.orientationCam = !this.scene.enableOrientationCamera(false, this.canvasRef);
+    }
+
     requestOrientation() {
+        if (this.orientationCam) {
+            return this.requestTouch();
+        }
         // @ts-ignore
         if (typeof DeviceMotionEvent.requestPermission === 'function') {
             // @ts-ignore
@@ -115,12 +117,12 @@ export class AppComponent implements AfterViewInit, OnDestroy {
                 .then(permissionState => {
                     if (permissionState === 'granted') {
                         alert('orientation granted');
-                        this.scene.enableVR(this.canvasRef);
+                        this.orientationCam = this.scene.enableOrientationCamera(true, this.canvasRef);
                     }
                 })
                 .catch(console.error);
         } else {
-            alert('Unsupported VR motion device');
+            alert('Device does not support motion input');
         }
     }
 }

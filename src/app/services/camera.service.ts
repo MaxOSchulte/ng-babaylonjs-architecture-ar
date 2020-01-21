@@ -51,6 +51,10 @@ export class CameraService {
         scene.setActiveCameraByName(this.mainCamera.name);
     }
 
+    useOrientationCamera() {
+        this._mainCamera.inputs.addDeviceOrientation();
+    }
+
     resetMainCamera() {
         this._mainCamera.position = this.startPosition;
         this._mainCamera.setTarget(this.startPosition.add(Vector3.Forward()));

@@ -14,6 +14,7 @@ import {ContainerSlot} from './slot/container.slot';
 import {BoxSlot} from './slot/box.slot';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchComponent } from './ui/search/search.component';
+import {SearchContext} from './services/search.context';
 
 @NgModule({
     declarations: [
@@ -29,7 +30,7 @@ import { SearchComponent } from './ui/search/search.component';
     ],
     providers: [
         provideSlot(ContainerSlot),
-        provideSlot(BoxSlot, [LightService, MaterialService]),
+        provideSlot(BoxSlot, [LightService, MaterialService, SearchContext]),
         provideSlot(Ground, [MaterialService]),
         provideSlot(Bulb, [LightService, MaterialService]),
 

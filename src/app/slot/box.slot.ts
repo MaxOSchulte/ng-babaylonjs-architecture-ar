@@ -27,6 +27,7 @@ export class BoxSlot extends SlotTransformNode implements DecalSlot, Lightable, 
         slotFactory: SlotFactory,
         public readonly lightService: LightService,
         public readonly materialService: MaterialService,
+        public readonly searchContext: SearchContext,
         parent: SlotTransformNode,
     ) {
         super(sceneContext, slotFactory);
@@ -39,10 +40,24 @@ export class BoxSlot extends SlotTransformNode implements DecalSlot, Lightable, 
         this.slotType = type;
         this.position = this.dimensions.position;
         this.fillSlot(this);
+        this.registerAction();
+        this.enablePick(false);
+    }
+
+    private registerAction() {
+        this.meshes[0].actionManager = new ActionManager(this.sceneContext.scene);
+        this.meshes[0].actionManager.registerAction(
+            new ExecuteCodeAction({
+                trigger: ActionManager.OnPickTrigger
+            }, (evt) => {
+                if (this.searchContext.activeSlot === this) {
+                    this.searchContext.goto();
+                }
+            }));
     }
 
     addLight() {
-        const light = MeshBuilder.CreateBox(this.name + 'Light1', { ...this.dimensions, height: .2, width: .2 });
+        const light = MeshBuilder.CreateBox(this.name + 'Light1', {...this.dimensions, height: .2, width: .2});
         light.position.y = this.dimensions.height / 2 - 0.5;
         light.position.x = this.dimensions.width / 2 + 0.5;
         light.material = this.materialService.getBoxLightMaterial();

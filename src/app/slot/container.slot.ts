@@ -30,7 +30,7 @@ export class ContainerSlot extends SlotTransformNode implements SlotContainerSta
             case SlotType.Box:
                 this.slotFactory.create(
                     BoxSlot,
-                    { ...this.dimensions, position: Vector3.Zero() },
+                    {...this.dimensions, position: Vector3.Zero()},
                     this.name + 'Box', SlotType.Box, this,
                 ).addLight();
                 break;

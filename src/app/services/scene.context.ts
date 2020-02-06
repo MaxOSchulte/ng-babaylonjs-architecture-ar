@@ -58,6 +58,11 @@ export class SceneContext {
         }
     }
 
+    dispose() {
+        this.scene.dispose();
+        this.scene = null;
+    }
+
     private disableCanvasEvents(canvas: ElementRef<HTMLCanvasElement>) {
         document.body.addEventListener('touchstart', e => this.preventDefault(e, canvas), {passive: false});
         document.body.addEventListener('touchend', e => this.preventDefault(e, canvas), {passive: false});

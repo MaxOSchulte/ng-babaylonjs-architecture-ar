@@ -6,6 +6,7 @@ import {SlotType} from '../base/slot-type.model';
 
 export abstract class SlotTransformNode extends TransformNode {
     dimensions: Dimensions;
+    information: string;
     protected slotType: SlotType;
 
     constructor(readonly sceneContext: SceneContext,

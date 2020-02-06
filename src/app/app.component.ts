@@ -21,6 +21,10 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
     @ViewChild('rCanvas', {static: true})
     canvasRef: ElementRef<HTMLCanvasElement>;
+    /*
+    * Inject a reference to the HTML-Cavnas
+    * */
+
     orientationCam: boolean;
     private readonly numberOfBoxes = 5;
     private readonly colsOfBoxes = 6;
@@ -36,7 +40,12 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit(): void {
-        const scene = this.scene.createMyScene(this.canvasRef);
+
+        if (!this['canvasRef']) {
+            return;
+        }
+
+        const scene = this.scene.createMyScene(this['canvasRef']);
         this.lightService.addPointLights();
 
         // link a light to the players position
@@ -73,7 +82,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         this.scene.startMyScene();
     }
 
-    createBoxes() {
+    private createBoxes() {
         const dim = {
             height: 10,
             width: 10,
@@ -107,38 +116,39 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.scene.dispose();
         this.engine.stop();
     }
 
     requestTouch() {
-        this.orientationCam = !this.scene.enableOrientationCamera(false, this.canvasRef);
+     //   this.orientationCam = !this.scene.enableOrientationCamera(false, this.canvasRef);
     }
 
     // checks must be as "near" as possible at the event source
     requestOrientation() {
-        if (this.orientationCam) {
-            return this.requestTouch();
-        }
-        // @ts-ignore
-        if (typeof DeviceMotionEvent.requestPermission === 'function') {
-            // @ts-ignore
-            DeviceMotionEvent.requestPermission().then(() => alert('motion granted'))
-                .catch(console.error);
-        }
-
-        // @ts-ignore
-        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-            // @ts-ignore
-            DeviceMotionEvent.requestPermission()
-                .then(permissionState => {
-                    if (permissionState === 'granted') {
-                        alert('orientation granted');
-                        this.orientationCam = this.scene.enableOrientationCamera(true, this.canvasRef);
-                    }
-                })
-                .catch(console.error);
-        } else {
-            alert('Device does not support motion input');
-        }
+    //     if (this.orientationCam) {
+    //         return this.requestTouch();
+    //     }
+    //     // @ts-ignore
+    //     if (typeof DeviceMotionEvent.requestPermission === 'function') {
+    //         // @ts-ignore
+    //         DeviceMotionEvent.requestPermission().then(() => alert('motion granted'))
+    //             .catch(console.error);
+    //     }
+    //
+    //     // @ts-ignore
+    //     if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+    //         // @ts-ignore
+    //         DeviceMotionEvent.requestPermission()
+    //             .then(permissionState => {
+    //                 if (permissionState === 'granted') {
+    //                     alert('orientation granted');
+    //                     this.orientationCam = this.scene.enableOrientationCamera(true, this.canvasRef);
+    //                 }
+    //             })
+    //             .catch(console.error);
+    //     } else {
+    //         alert('Device does not support motion input');
+    //     }
     }
 }

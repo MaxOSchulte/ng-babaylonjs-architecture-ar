@@ -36,14 +36,22 @@ export class SearchContext {
 
     findSlot<T extends SlotTransformNode>(term: string, searchedType: Type<T>): T {
         this.clear(false);
-        const slots = this.scene.scene.transformNodes.filter(node => node instanceof searchedType) as T[];
-        // just for the demo
-        const foundIdx = Math.floor(Math.random() * slots.length);
-        this.activeSlot = slots[foundIdx];
+        /*
+        * Find the object that represents our desired object.
+        * Get all Nodes / Objects from the scene and filter them by some properties.
+        * 1. Type of Node we are looking for
+        * 2. Is it activatable at all ?
+        * 3. Does it store information ?
+        * Inspect each filtered node for the information, and store the found slot for later.
+        */
+        this.activeSlot = this.scene.scene.transformNodes
+            .filter(node => node instanceof searchedType && isActivatable(node))
+            .find((node: T) => node.information === term) as T;
 
-        if (isActivatable(this.activeSlot)) {
-            this.activeSlot.activate(true);
-        }
+        /*
+        * check if the Node has custom functionality that could be enabled
+        * Is it possible to add a decal to the Node ?
+        */
         if (isDecalSlot(this.activeSlot)) {
             this.activeSlot.addDecal(this.activeSlot);
         }

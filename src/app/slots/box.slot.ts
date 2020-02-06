@@ -51,6 +51,13 @@ export class BoxSlot extends SlotTransformNode
 
     // this could be an interface + behavior too (composition)
     private registerAction() {
+        /*
+        * We want to interact from BabylonJS with Angular. All we have to do: call a function, like always.
+        * In this case, we
+        * 1. add an ActionManager (event handler) to this Node
+        * 2. register the action call back (think of document.registerEvent....
+        * 3. call the function **inside** the Angular context
+        */
         this.meshes[0].actionManager = new ActionManager(this.sceneContext.scene);
         this.meshes[0].actionManager.registerAction(
             new ExecuteCodeAction({

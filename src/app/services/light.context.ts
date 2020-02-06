@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HemisphericLight, Mesh, PointLight, Scene, ShadowGenerator, Vector3} from '@babylonjs/core';
 import {SCALE} from '../constants';
-import {SceneContext} from "./scene.context";
+import {SceneContext} from './scene.context';
 
 @Injectable({
     providedIn: 'root',
@@ -10,9 +10,13 @@ export class LightContext {
 
     // noinspection JSMismatchedCollectionQueryUpdate
     readonly shadowGen: ShadowGenerator[] = [];
-    // noinspection JSMismatchedCollectionQueryUpdate
-    readonly pointLights: PointLight[] = [];
-    private readonly HIGH_LIGHT: string = 'highlight';
+
+    get pointLights(): PointLight[] {
+        return this.pointLightsRefs.map(name => this.scene.scene.getLightByName(name)) as PointLight[];
+    }
+
+    private pointLightsRefs: string[] = [];
+    private readonly PLAYER_LIGHT: string = 'playerLight';
     private readonly numberOfPointLights = 3;
     private readonly startPositionPointLights = new Vector3(0, 0, -20);
 
@@ -25,13 +29,12 @@ export class LightContext {
     }
 
     addPointLights() {
-        for (let i = 0; i < this.numberOfPointLights; i++) {
-
+        for (let i = 0; this.pointLightsRefs.length < this.numberOfPointLights || i < this.numberOfPointLights; i++) {
             const lightPos = this.startPositionPointLights.add(new Vector3(0, 1, i * 3).scale(SCALE));
             const light = new PointLight('PointLight' + i, lightPos, this.scene.scene);
             light.intensity = 0.45;
             light.range = 6 * SCALE;
-            this.pointLights.push(light);
+            this.pointLightsRefs.push(light.name);
             const shadowGen = new ShadowGenerator(1024, light);
             this.shadowGen.push(shadowGen);
             shadowGen.usePoissonSampling = true;
@@ -48,10 +51,10 @@ export class LightContext {
     }
 
     updatePlayerLight(position: Vector3, enable: boolean) {
-        let light = this.scene.scene.getLightByName(this.HIGH_LIGHT) as PointLight;
+        let light = this.scene.scene.getLightByName(this.PLAYER_LIGHT) as PointLight;
         if (enable) {
             if (!light) {
-                light = new PointLight(this.HIGH_LIGHT, position, this.scene.scene);
+                light = new PointLight(this.PLAYER_LIGHT, position, this.scene.scene);
                 light.intensity = 1;
                 light.range = 4 * SCALE;
             }

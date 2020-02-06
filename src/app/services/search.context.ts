@@ -38,10 +38,10 @@ export class SearchContext {
             this.materialService.activateBoxMaterials();
         }
 
-        if (isPickable(this.activeSlot)) {
+        if (this.activeSlot && isPickable(this.activeSlot)) {
             this.activeSlot.enablePick(false);
         }
-        
+
         this.light.updatePlayerLight(this.camera.mainCamera.position, true);
         this.showAR = false;
     }
@@ -75,6 +75,10 @@ export class SearchContext {
             this.activeSlot.enablePick(true);
         }
 
+        /*
+        * "disable" all other Nodes by modifying the underlying material+
+        * and set the material of the active node to "active"
+        */
         this.materialService.deactivateBoxMaterials();
         this.activeSlot.getChildMeshes(true).forEach(mesh => {
             this.inactiveMaterial = mesh.material;

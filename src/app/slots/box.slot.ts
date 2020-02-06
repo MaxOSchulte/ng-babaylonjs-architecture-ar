@@ -37,6 +37,7 @@ export class BoxSlot extends SlotTransformNode
     ) {
         super(sceneContext, slotFactory);
         this.parent = parent;
+        this.information = this.id;
     }
 
     init(dimensions: Dimensions, name: string, type: SlotType) {

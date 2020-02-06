@@ -6,13 +6,13 @@ import {SlotType} from '../base/slot-type.model';
 
 export abstract class SlotTransformNode extends TransformNode {
     dimensions: Dimensions;
-    information: string;
+    public information: string;
     protected slotType: SlotType;
 
     constructor(readonly sceneContext: SceneContext,
                 readonly slotFactory: SlotFactory,
                 parent?: TransformNode) {
-        super('SlotTransformNode-' + Math.random(), sceneContext.scene);
+        super(Math.floor(Math.random() * 10000) + '', sceneContext.scene);
         this.parent = parent;
     }
 

@@ -3,12 +3,14 @@ import {Color3, Color4, Scene, SSAORenderingPipeline} from '@babylonjs/core';
 import '@babylonjs/inspector';
 import {CameraContext} from './camera.context';
 import {EngineContext} from './engine.context';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
 })
 export class SceneContext {
     scene: Scene;
+    sceneCreated$ = new BehaviorSubject<Scene>(null);
 
     constructor(
         private engineCtx: EngineContext,
@@ -19,6 +21,7 @@ export class SceneContext {
     createMyScene(canvas: ElementRef<HTMLCanvasElement>): Scene {
         this.engineCtx.canvas = canvas;
         this.scene = new Scene(this.engineCtx.engine);
+        this.sceneCreated$.next(this.scene);
 
         this.camera.setup(this.scene, canvas.nativeElement);
         const ssao = new SSAORenderingPipeline(

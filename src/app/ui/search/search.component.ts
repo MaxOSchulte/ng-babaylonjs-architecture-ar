@@ -1,29 +1,39 @@
-import {Component, OnInit} from '@angular/core';
-import {Color4, Material} from '@babylonjs/core';
+import {AfterContentChecked, Component, OnDestroy} from '@angular/core';
+import {Material} from '@babylonjs/core';
 import {CameraContext} from '../../services/camera.context';
-import {LightContext} from '../../services/light.context';
 import {MaterialService} from '../../services/material.service';
 import {SearchContext} from '../../services/search.context';
 import {SceneContext} from '../../services/scene.context';
 import {BoxSlot} from '../../slots/box.slot';
-import {Pickable} from '../../interfaces/pickable.interface';
+import {filter, takeUntil} from 'rxjs/operators';
+import {BehaviorSubject, Subject} from 'rxjs';
 
 @Component({
     selector: 'app-search',
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.scss'],
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements AfterContentChecked, OnDestroy {
 
-    private inactiveMaterial: Material;
+    options$ = new BehaviorSubject<string[]>([]);
+    private destroy = new Subject<boolean>();
 
     constructor(private readonly scene: SceneContext,
                 private readonly materialService: MaterialService,
                 private readonly camera: CameraContext,
                 public readonly searchContext: SearchContext,
-    ) { }
+    ) {
+    }
 
-    ngOnInit() {
+    ngAfterContentChecked() {
+        this.scene.sceneCreated$.pipe(takeUntil(this.destroy), filter(x => !!x))
+            .subscribe(scene => scene.onNewTransformNodeAddedObservable.add(() => {
+                this.options$.next(this.scene.scene.transformNodes.filter(node => node instanceof BoxSlot).map((box: BoxSlot) => box.information));
+            }));
+    }
+
+    ngOnDestroy() {
+        this.destroy.next(true);
     }
 
     clear(all = true) {
@@ -38,15 +48,12 @@ export class SearchComponent implements OnInit {
     }
 
     search(term: string) {
+        if (!term || !term.length) {
+            return;
+        }
         this.clear(false);
         const activeSlot = this.searchContext.findSlot(term, BoxSlot);
-        this.materialService.deactivateBoxMaterials();
-        activeSlot.getChildMeshes(true).forEach(mesh => {
-            this.inactiveMaterial = mesh.material;
-            mesh.material = this.materialService.getBoxActiveMaterial(mesh.material);
-        });
         this.camera.displayMiniMap(this.scene.scene, activeSlot.position);
-        activeSlot.enablePick(true);
     }
 
 }

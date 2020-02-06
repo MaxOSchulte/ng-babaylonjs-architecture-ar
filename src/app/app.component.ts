@@ -16,7 +16,7 @@ import {SlotType} from './base/slot-type.model';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements AfterViewInit, OnDestroy {
+export class AppComponent implements OnDestroy {
     title = 'Angular & BabylonJs Architecture example';
 
     @ViewChild('rCanvas', {static: true})
@@ -24,7 +24,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     /*
     * Inject a reference to the HTML-Cavnas
     * */
-
+    started = false;
     orientationCam: boolean;
     private readonly numberOfBoxes = 5;
     private readonly colsOfBoxes = 6;
@@ -39,7 +39,8 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     ) {
     }
 
-    ngAfterViewInit(): void {
+    start() {
+        this.started = true;
 
         if (!this['canvasRef']) {
             return;

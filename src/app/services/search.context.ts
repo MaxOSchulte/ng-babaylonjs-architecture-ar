@@ -5,16 +5,22 @@ import {LightContext} from './light.context';
 import {SlotTransformNode} from '../slots/transform-node.slot';
 import {isDecalSlot} from '../interfaces/decal.interface';
 import {isActivatable} from '../interfaces/activatable.interface';
+import {Material} from '@babylonjs/core';
+import {MaterialService} from './material.service';
+import {isPickable} from '../interfaces/pickable.interface';
 
 @Injectable({providedIn: 'root'})
 export class SearchContext {
     activeSlot: SlotTransformNode;
     showAR = false;
 
+    private inactiveMaterial: Material;
+
     constructor(
         private readonly camera: CameraContext,
         private readonly scene: SceneContext,
         private readonly light: LightContext,
+        private readonly materialService: MaterialService,
     ) {
     }
 
@@ -29,7 +35,13 @@ export class SearchContext {
         if (all) {
             this.camera.hideMiniMap();
             this.camera.resetMainCamera();
+            this.materialService.activateBoxMaterials();
         }
+
+        if (isPickable(this.activeSlot)) {
+            this.activeSlot.enablePick(false);
+        }
+        
         this.light.updatePlayerLight(this.camera.mainCamera.position, true);
         this.showAR = false;
     }
@@ -45,8 +57,12 @@ export class SearchContext {
         * Inspect each filtered node for the information, and store the found slot for later.
         */
         this.activeSlot = this.scene.scene.transformNodes
-            .filter(node => node instanceof searchedType && isActivatable(node))
+            .filter(node => node instanceof searchedType)
             .find((node: T) => node.information === term) as T;
+
+        if (isActivatable(this.activeSlot)) {
+            this.activeSlot.activate(true);
+        }
 
         /*
         * check if the Node has custom functionality that could be enabled
@@ -55,6 +71,16 @@ export class SearchContext {
         if (isDecalSlot(this.activeSlot)) {
             this.activeSlot.addDecal(this.activeSlot);
         }
+        if (isPickable(this.activeSlot)) {
+            this.activeSlot.enablePick(true);
+        }
+
+        this.materialService.deactivateBoxMaterials();
+        this.activeSlot.getChildMeshes(true).forEach(mesh => {
+            this.inactiveMaterial = mesh.material;
+            mesh.material = this.materialService.getBoxActiveMaterial(mesh.material);
+        });
+
         return this.activeSlot as T;
     }
 

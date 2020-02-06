@@ -15,6 +15,8 @@ import {BoxSlot} from './slots/box.slot';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SearchComponent} from './ui/search/search.component';
 import {SearchContext} from './services/search.context';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatOptionModule} from '@angular/material/core';
 
 @NgModule({
     declarations: [
@@ -27,6 +29,8 @@ import {SearchContext} from './services/search.context';
         MatButtonModule,
         MatIconModule,
         MatInputModule,
+        MatOptionModule,
+        MatAutocompleteModule,
     ],
     providers: [
         provideSlot(ContainerSlot),

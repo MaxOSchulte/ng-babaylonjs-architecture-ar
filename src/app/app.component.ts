@@ -24,6 +24,8 @@ export class AppComponent implements OnDestroy {
     /*
     * Inject a reference to the HTML-Cavnas
     * */
+
+
     started = false;
     orientationCam: boolean;
     private readonly numberOfBoxes = 5;

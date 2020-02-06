@@ -7,11 +7,11 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppComponent} from './app.component';
 import {Bulb} from './base/bulb';
 import {Ground} from './base/ground';
-import {LightService} from './services/light.service';
+import {LightContext} from './services/light.context';
 import {MaterialService} from './services/material.service';
 import {provideSlot} from './services/slot.factory';
-import {ContainerSlot} from './slot/container.slot';
-import {BoxSlot} from './slot/box.slot';
+import {ContainerSlot} from './slots/container.slot';
+import {BoxSlot} from './slots/box.slot';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchComponent } from './ui/search/search.component';
 import {SearchContext} from './services/search.context';
@@ -30,9 +30,9 @@ import {SearchContext} from './services/search.context';
     ],
     providers: [
         provideSlot(ContainerSlot),
-        provideSlot(BoxSlot, [LightService, MaterialService, SearchContext]),
+        provideSlot(BoxSlot, [LightContext, MaterialService, SearchContext]),
         provideSlot(Ground, [MaterialService]),
-        provideSlot(Bulb, [LightService, MaterialService]),
+        provideSlot(Bulb, [LightContext, MaterialService]),
 
     ],
     bootstrap: [AppComponent],

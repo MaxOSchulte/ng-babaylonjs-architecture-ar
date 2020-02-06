@@ -4,16 +4,15 @@ import { MaterialService } from '../services/material.service';
 import { SceneContext } from '../services/scene.context';
 import { SlotFactory } from '../services/slot.factory';
 import {
-    Dimensions,
-    SlotTransformNode,
-    SlotType
-} from '../slot/transform-node.slot';
+    SlotTransformNode
+} from '../slots/transform-node.slot';
 import { SCALE } from '../constants';
 import {DecalSlot, removeDecalSlotBehavior} from '../interfaces/decal.interface';
+import {Slotable} from './slotable';
+import {Dimensions} from "./dimensions.model";
+import {SlotType} from "./slot-type.model";
 
-@Injectable({
-    providedIn: 'root'
-})
+@Slotable()
 export class Ground extends SlotTransformNode implements DecalSlot {
     decal: Mesh;
     mesh: Mesh;

@@ -4,11 +4,12 @@ import {Bulb} from './base/bulb';
 import {Ground} from './base/ground';
 import {SCALE} from './constants';
 import {EngineContext} from './services/engine.context';
-import {LightService} from './services/light.service';
+import {LightContext} from './services/light.context';
 import {SceneContext} from './services/scene.context';
 import {SlotFactory} from './services/slot.factory';
-import {ContainerSlot} from './slot/container.slot';
-import {SlotType} from './slot/transform-node.slot';
+import {ContainerSlot} from './slots/container.slot';
+import {CameraContext} from './services/camera.context';
+import {SlotType} from "./base/slot-type.model";
 
 @Component({
     selector: 'app-root',
@@ -16,7 +17,7 @@ import {SlotType} from './slot/transform-node.slot';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit, OnDestroy {
-    title = 'babylonjs-architecture';
+    title = 'Angular & BabylonJs Architecture example';
 
     @ViewChild('rCanvas', {static: true})
     canvasRef: ElementRef<HTMLCanvasElement>;
@@ -26,16 +27,25 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     private readonly rowsOfBoxes = 4;
 
     constructor(
-        private engine: EngineContext,
-        private scene: SceneContext,
+        private readonly engine: EngineContext,
+        private readonly scene: SceneContext,
+        private readonly camera: CameraContext,
         private readonly slotFactory: SlotFactory,
-        private readonly lightService: LightService
+        private readonly lightService: LightContext
     ) {
     }
 
     ngAfterViewInit(): void {
-        this.scene.createMyScene(this.canvasRef);
-        this.createBoxes();
+        const scene = this.scene.createMyScene(this.canvasRef);
+        this.lightService.addPointLights();
+
+        // link a light to the players position
+        this.lightService.updatePlayerLight(
+            this.camera.mainCamera.position,
+            true
+        );
+
+        // create floor
         this.slotFactory.create(
             Ground,
             {width: 100 * SCALE, height: 50 * SCALE},
@@ -43,6 +53,10 @@ export class AppComponent implements AfterViewInit, OnDestroy {
             SlotType.Ground
         );
 
+        // create boxes
+        this.createBoxes();
+
+        // add some mesh to represent lights
         this.lightService.pointLights.forEach(light =>
             this.slotFactory.create(
                 Bulb,
@@ -55,6 +69,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
             )
         );
 
+        // start
         this.scene.startMyScene();
     }
 
@@ -99,6 +114,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         this.orientationCam = !this.scene.enableOrientationCamera(false, this.canvasRef);
     }
 
+    // checks must be as "near" as possible at the event source
     requestOrientation() {
         if (this.orientationCam) {
             return this.requestTouch();

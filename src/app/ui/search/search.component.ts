@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Color4, Material} from '@babylonjs/core';
-import {CameraService} from '../../services/camera.service';
-import {LightService} from '../../services/light.service';
+import {CameraContext} from '../../services/camera.context';
+import {LightContext} from '../../services/light.context';
 import {MaterialService} from '../../services/material.service';
 import {SearchContext} from '../../services/search.context';
 import {SceneContext} from '../../services/scene.context';
-import {BoxSlot} from '../../slot/box.slot';
-import {Pickable} from '../../interfaces/misc.interface';
+import {BoxSlot} from '../../slots/box.slot';
+import {Pickable} from '../../interfaces/pickable.interface';
 
 @Component({
     selector: 'app-search',
@@ -15,12 +15,11 @@ import {Pickable} from '../../interfaces/misc.interface';
 })
 export class SearchComponent implements OnInit {
 
-    showARButton = false;
     private inactiveMaterial: Material;
 
     constructor(private readonly scene: SceneContext,
                 private readonly materialService: MaterialService,
-                private readonly camera: CameraService,
+                private readonly camera: CameraContext,
                 public readonly searchContext: SearchContext,
     ) { }
 
@@ -32,17 +31,15 @@ export class SearchComponent implements OnInit {
             this.materialService.activateBoxMaterials();
         }
         this.searchContext.clear(all);
-        this.showARButton = false;
     }
 
     goto() {
         this.searchContext.goto();
-        this.showARButton = true;
     }
 
     search(term: string) {
         this.clear(false);
-        const activeSlot = this.searchContext.find(term, BoxSlot);
+        const activeSlot = this.searchContext.findSlot(term, BoxSlot);
         this.materialService.deactivateBoxMaterials();
         activeSlot.getChildMeshes(true).forEach(mesh => {
             this.inactiveMaterial = mesh.material;

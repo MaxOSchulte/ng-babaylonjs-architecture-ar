@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Color3, Material, StandardMaterial, Texture } from '@babylonjs/core';
-import { ACTIVE_MATERIAL_PREFIX, MATERIAL_POSTFIX } from '../constants';
-import { SceneContext } from './scene.context';
+import {Injectable} from '@angular/core';
+import {Color3, Material, StandardMaterial, Texture} from '@babylonjs/core';
+import {ACTIVE_MATERIAL_PREFIX, MATERIAL_POSTFIX} from '../constants';
+import {SceneContext} from './scene.context';
 
 @Injectable({
     providedIn: 'root'
@@ -9,11 +9,10 @@ import { SceneContext } from './scene.context';
 export class MaterialService {
     private readonly materials: { [key: string]: StandardMaterial } = {};
     private readonly boxMaterials: { [key: string]: StandardMaterial } = {};
-    private readonly boxActiveMaterials: {
-        [key: string]: StandardMaterial;
-    } = {};
+    private readonly boxActiveMaterials: { [key: string]: StandardMaterial } = {};
 
-    constructor(private readonly sceneContext: SceneContext) {}
+    constructor(private readonly sceneContext: SceneContext) {
+    }
 
     getBoxMaterial(alternative?: boolean): StandardMaterial {
         if (!alternative) {
@@ -53,7 +52,7 @@ export class MaterialService {
                     MATERIAL_POSTFIX + ACTIVE_MATERIAL_PREFIX
                 )
             )
-        ];
+            ];
     }
 
     getGroundMaterial(): Material {
@@ -64,11 +63,19 @@ export class MaterialService {
             );
             // tslint:disable-next-line:max-line-length
             mat.diffuseTexture = new Texture(
-                'https://1.bp.blogspot.com/-fl9N0RokiBE/Vhrm_xLtakI/AAAAAAAAIXo/9RMVb4OVFGw/s640/Conrete%2Bthat%2Bis%2Bcracked%2Btexture%2Bseamless.jpg',
+                '/assets/textures/floor/Concrete_panels_001_SD/Concrete_Panels_001_COLOR.jpg',
                 this.sceneContext.scene
             );
-            (mat.diffuseTexture as any).uScale = 50;
-            (mat.diffuseTexture as any).vScale = 50;
+            mat.ambientTexture = new Texture(
+                '/assets/textures/floor/Concrete_panels_001_SD/Concrete_Panels_001_OCC.jpg',
+                this.sceneContext.scene
+            );
+            mat.specularTexture = new Texture(
+                '/assets/textures/floor/Concrete_panels_001_SD/Concrete_Panels_001_ROUGH.jpg',
+                this.sceneContext.scene
+            );
+            (mat.diffuseTexture as any).uScale = 100;
+            (mat.diffuseTexture as any).vScale = 100;
             this.materials.ground = mat;
         }
 
@@ -128,7 +135,7 @@ export class MaterialService {
                 this.sceneContext.scene
             );
             decalMaterial.diffuseTexture.hasAlpha = false;
-            decalMaterial.zOffset = -2;
+            decalMaterial.zOffset = -3;
             this.materials.decal = decalMaterial;
         }
         return this.materials.decal;

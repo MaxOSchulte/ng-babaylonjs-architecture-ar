@@ -1,8 +1,9 @@
 import {Vector3} from '@babylonjs/core';
-import {BoxSlot} from '../slot/box.slot';
-import {Dimensions, SlotType} from '../slot/transform-node.slot';
+import {BoxSlot} from '../slots/box.slot';
 import {SlotFactory} from '../services/slot.factory';
-import {ContainerSlot} from '../slot/container.slot';
+import {ContainerSlot} from '../slots/container.slot';
+import {Dimensions} from "../base/dimensions.model";
+import {SlotType} from "../base/slot-type.model";
 
 export interface SlotContainerStack {
     dimensions: Dimensions;

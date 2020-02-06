@@ -14,7 +14,7 @@ export class EngineContext {
     private _engine: Engine;
     get engine(): Engine {
         if (!this._engine) {
-            this._engine = new Engine(this.canvas.nativeElement, true);
+            this._engine = new Engine(this.canvas.nativeElement);
         }
         return this._engine;
     }

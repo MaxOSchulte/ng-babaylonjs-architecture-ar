@@ -1,5 +1,6 @@
 import {Mesh, Vector3} from '@babylonjs/core';
-import {Dimensions, SlotTransformNode} from '../slot/transform-node.slot';
+import {SlotTransformNode} from '../slots/transform-node.slot';
+import {Dimensions} from "../base/dimensions.model";
 
 export interface DecalSlot {
     decal: Mesh;

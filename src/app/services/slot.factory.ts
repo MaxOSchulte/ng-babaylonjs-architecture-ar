@@ -1,7 +1,9 @@
 import {FactorySansProvider, Inject, Injectable, InjectionToken, Injector, Type, ValueProvider} from '@angular/core';
 import {TransformNode} from '@babylonjs/core';
-import {Dimensions, SlotTransformNode, SlotType} from '../slot/transform-node.slot';
+import {SlotTransformNode} from '../slots/transform-node.slot';
 import {SceneContext} from './scene.context';
+import {Dimensions} from "../base/dimensions.model";
+import {SlotType} from "../base/slot-type.model";
 
 
 interface ResolvedFactory<T> {
@@ -66,7 +68,9 @@ export class SlotFactory {
     }
 
     private resolveAndInitialize<T extends SlotTransformNode>(type: Type<T>, dim: Dimensions, name: string, slotType?: SlotType, parent?: TransformNode): T {
+
         const resolvedFactory: ResolvedFactory<T> = this.injector.get(type as any);
+
         const slot = new resolvedFactory.ctor(...resolvedFactory.resolvedDependencies, parent);
         slot.init(dim, name, slotType);
         return slot;

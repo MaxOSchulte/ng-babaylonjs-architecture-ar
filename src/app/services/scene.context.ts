@@ -1,9 +1,8 @@
 import {ElementRef, Injectable} from '@angular/core';
 import {Color3, Color4, Scene, SSAORenderingPipeline} from '@babylonjs/core';
 import '@babylonjs/inspector';
-import {CameraService} from './camera.service';
+import {CameraContext} from './camera.context';
 import {EngineContext} from './engine.context';
-import {LightService} from './light.service';
 
 @Injectable({
     providedIn: 'root'
@@ -13,12 +12,11 @@ export class SceneContext {
 
     constructor(
         private engineCtx: EngineContext,
-        private readonly lightService: LightService,
-        private readonly camera: CameraService
+        private readonly camera: CameraContext
     ) {
     }
 
-    createMyScene(canvas: ElementRef<HTMLCanvasElement>) {
+    createMyScene(canvas: ElementRef<HTMLCanvasElement>): Scene {
         this.engineCtx.canvas = canvas;
         this.scene = new Scene(this.engineCtx.engine);
 
@@ -31,16 +29,11 @@ export class SceneContext {
         );
 
         this.scene.clearColor = Color4.FromColor3(new Color3(0, 0, 0));
-        this.lightService.addPointLights(this.scene);
-
-        this.lightService.toggleHighlight(
-            this.camera.mainCamera.position,
-            true,
-            this.scene
-        );
 
         // Prevent scrolling when touching the canvas
         this.disableCanvasEvents(canvas);
+
+        return this.scene;
     }
 
     startMyScene() {

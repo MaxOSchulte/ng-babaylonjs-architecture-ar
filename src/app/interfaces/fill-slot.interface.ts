@@ -1,8 +1,9 @@
-import {BoxBuilder} from '@babylonjs/core';
-import {SlotTransformNode} from '../slot/transform-node.slot';
-import {BoxSlot} from '../slot/box.slot';
+import {BoxBuilder, Mesh} from '@babylonjs/core';
+import {SlotTransformNode} from '../slots/transform-node.slot';
+import {BoxSlot} from '../slots/box.slot';
 
-export interface ContainerSlot {
+export interface Fillable {
+    readonly meshes?: Mesh[];
     fillSlot(meshes: SlotTransformNode);
 }
 
@@ -17,4 +18,8 @@ export function fillSlotBehavior(parent: BoxSlot) {
     box.material = parent.materialService.getBoxMaterial(Math.random() > .5);
     parent.lightService.addShadowCaster(box);
     parent.meshes.push(box);
+}
+
+export function isContainerSlot(toCheck: any): toCheck is Fillable {
+    return toCheck.fillSlot;
 }

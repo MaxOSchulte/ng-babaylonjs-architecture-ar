@@ -1,4 +1,4 @@
-import {ActionManager, ExecuteCodeAction, Mesh, MeshBuilder,} from '@babylonjs/core';
+import {ActionManager, ExecuteCodeAction, Mesh, MeshBuilder} from '@babylonjs/core';
 import {LightContext} from '../services/light.context';
 import {MaterialService} from '../services/material.service';
 import {SceneContext} from '../services/scene.context';
@@ -8,13 +8,13 @@ import {SearchContext} from '../services/search.context';
 import {DecalSlot, decalSlotBehavior, removeDecalSlotBehavior} from '../interfaces/decal.interface';
 import {Fillable, fillSlotBehavior} from '../interfaces/fill-slot.interface';
 import {Pickable} from '../interfaces/pickable.interface';
-import {Slotable} from '../base/slotable';
+import {SlotableDecorator} from '../base/slotable.decorator';
 import {Activatable, activateSlotBehavior} from '../interfaces/activatable.interface';
-import {Lightable} from "../interfaces/lightable.interface";
-import {Dimensions} from "../base/dimensions.model";
-import {SlotType} from "../base/slot-type.model";
+import {Lightable} from '../interfaces/lightable.interface';
+import {Dimensions} from '../base/dimensions.model';
+import {SlotType} from '../base/slot-type.model';
 
-@Slotable()
+@SlotableDecorator()
 export class BoxSlot extends SlotTransformNode
     implements DecalSlot, Lightable, Fillable, Pickable, Activatable {
     decal: Mesh;
@@ -54,7 +54,7 @@ export class BoxSlot extends SlotTransformNode
         this.meshes[0].actionManager = new ActionManager(this.sceneContext.scene);
         this.meshes[0].actionManager.registerAction(
             new ExecuteCodeAction({
-                trigger: ActionManager.OnPickTrigger
+                trigger: ActionManager.OnPickTrigger,
             }, () => {
                 if (this.searchContext.activeSlot === this) {
                     this.searchContext.goto();

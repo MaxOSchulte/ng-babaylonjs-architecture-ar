@@ -1,8 +1,8 @@
 import {TransformNode} from '@babylonjs/core';
 import {SceneContext} from '../services/scene.context';
 import {SlotFactory} from '../services/slot.factory';
-import {Dimensions} from "../base/dimensions.model";
-import {SlotType} from "../base/slot-type.model";
+import {Dimensions} from '../base/dimensions.model';
+import {SlotType} from '../base/slot-type.model';
 
 export abstract class SlotTransformNode extends TransformNode {
     dimensions: Dimensions;
@@ -17,5 +17,6 @@ export abstract class SlotTransformNode extends TransformNode {
 
     abstract init(dimensions: Dimensions, name: string, type: SlotType);
 }
+
 
 

@@ -14,7 +14,7 @@ export class SearchContext {
     constructor(
         private readonly camera: CameraContext,
         private readonly scene: SceneContext,
-        private readonly light: LightContext
+        private readonly light: LightContext,
     ) {
     }
 

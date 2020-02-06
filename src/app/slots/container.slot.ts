@@ -2,12 +2,12 @@ import {Vector3} from '@babylonjs/core';
 import {BoxSlot} from './box.slot';
 import {SlotTransformNode} from './transform-node.slot';
 import {SlotContainerStack, slotContainerStackBehavior} from '../interfaces/slot-stack.interface';
-import {Slotable} from '../base/slotable';
-import {Dimensions} from "../base/dimensions.model";
-import {SlotType} from "../base/slot-type.model";
+import {SlotableDecorator} from '../base/slotable.decorator';
+import {Dimensions} from '../base/dimensions.model';
+import {SlotType} from '../base/slot-type.model';
 
 
-@Slotable()
+@SlotableDecorator()
 export class ContainerSlot extends SlotTransformNode implements SlotContainerStack {
 
     init(dimensions: Dimensions, name: string, slotType: SlotType) {

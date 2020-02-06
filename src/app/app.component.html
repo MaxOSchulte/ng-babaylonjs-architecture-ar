@@ -3,12 +3,12 @@
     <app-search></app-search>
     <div id="controls">
 
-    <button  mat-flat-button (click)="requestOrientation()">
-        <mat-icon *ngIf="!orientationCam">screen_rotation</mat-icon>
-        <mat-icon *ngIf="orientationCam">developer_mode</mat-icon>
-    </button>&nbsp;
-    <button  mat-flat-button (click)="debug()">
-        <mat-icon>bug_report</mat-icon>
-    </button>
+        <button mat-flat-button (click)="requestOrientation()">
+            <mat-icon *ngIf="!orientationCam">screen_rotation</mat-icon>
+            <mat-icon *ngIf="orientationCam">developer_mode</mat-icon>
+        </button>&nbsp;
+        <button mat-flat-button (click)="debug()">
+            <mat-icon>bug_report</mat-icon>
+        </button>
     </div>
 </div>

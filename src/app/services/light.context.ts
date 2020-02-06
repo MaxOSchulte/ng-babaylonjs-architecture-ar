@@ -16,7 +16,8 @@ export class LightContext {
     private readonly numberOfPointLights = 3;
     private readonly startPositionPointLights = new Vector3(0, 0, -20);
 
-    constructor(private readonly scene: SceneContext) {}
+    constructor(private readonly scene: SceneContext) {
+    }
 
     addHemisphericLight(scene: Scene) {
         const light = new HemisphericLight('HemisphereLight', new Vector3(1, 2, 1.5).scale(SCALE), scene);

@@ -8,7 +8,8 @@ export class EngineContext {
 
     canvas: ElementRef<HTMLCanvasElement>;
 
-    constructor(private readonly ngZone: NgZone) {}
+    constructor(private readonly ngZone: NgZone) {
+    }
 
     // tslint:disable-next-line:variable-name
     private _engine: Engine;
@@ -29,6 +30,7 @@ export class EngineContext {
     stop() {
         this._engine.stopRenderLoop();
         this._engine.dispose();
-        window.removeEventListener('resize', () => {});
+        window.removeEventListener('resize', () => {
+        });
     }
 }

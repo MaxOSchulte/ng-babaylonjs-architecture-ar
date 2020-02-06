@@ -40,7 +40,7 @@ export function provideSlot<T extends SlotTransformNode>(slotNode: Type<T>, deps
     };
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class SlotFactory {
     readonly injector: Injector;
 

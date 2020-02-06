@@ -9,12 +9,12 @@ import {SceneContext} from './services/scene.context';
 import {SlotFactory} from './services/slot.factory';
 import {ContainerSlot} from './slots/container.slot';
 import {CameraContext} from './services/camera.context';
-import {SlotType} from "./base/slot-type.model";
+import {SlotType} from './base/slot-type.model';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+    styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements AfterViewInit, OnDestroy {
     title = 'Angular & BabylonJs Architecture example';
@@ -31,7 +31,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         private readonly scene: SceneContext,
         private readonly camera: CameraContext,
         private readonly slotFactory: SlotFactory,
-        private readonly lightService: LightContext
+        private readonly lightService: LightContext,
     ) {
     }
 
@@ -42,7 +42,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         // link a light to the players position
         this.lightService.updatePlayerLight(
             this.camera.mainCamera.position,
-            true
+            true,
         );
 
         // create floor
@@ -50,7 +50,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
             Ground,
             {width: 100 * SCALE, height: 50 * SCALE},
             'Ground',
-            SlotType.Ground
+            SlotType.Ground,
         );
 
         // create boxes
@@ -63,10 +63,10 @@ export class AppComponent implements AfterViewInit, OnDestroy {
                 {
                     height: 1.5,
                     width: 3,
-                    position: light.position
+                    position: light.position,
                 },
-                'bulb' + light.name
-            )
+                'bulb' + light.name,
+            ),
         );
 
         // start
@@ -78,7 +78,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
             height: 10,
             width: 10,
             depth: 10,
-            position: new Vector3(0, 5, 0)
+            position: new Vector3(0, 5, 0),
         };
 
         for (let r = 0; r < this.rowsOfBoxes; r++) {
@@ -89,13 +89,13 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
                     const boxDim = {
                         ...dim,
-                        position: new Vector3(x, r * 2.2 + 1, n * 3).scale(5)
+                        position: new Vector3(x, r * 2.2 + 1, n * 3).scale(5),
                     };
                     let box = this.slotFactory.create(
                         ContainerSlot,
                         boxDim,
                         'Container' + '-' + r + c + n,
-                        SlotType.Random
+                        SlotType.Random,
                     );
                 }
             }

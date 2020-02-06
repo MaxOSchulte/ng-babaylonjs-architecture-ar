@@ -5,14 +5,14 @@ import {CameraContext} from './camera.context';
 import {EngineContext} from './engine.context';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class SceneContext {
     scene: Scene;
 
     constructor(
         private engineCtx: EngineContext,
-        private readonly camera: CameraContext
+        private readonly camera: CameraContext,
     ) {
     }
 
@@ -25,7 +25,7 @@ export class SceneContext {
             'ssaoPipeline',
             this.scene,
             0.75,
-            [this.camera.mainCamera]
+            [this.camera.mainCamera],
         );
 
         this.scene.clearColor = Color4.FromColor3(new Color3(0, 0, 0));

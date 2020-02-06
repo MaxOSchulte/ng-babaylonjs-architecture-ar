@@ -1,18 +1,15 @@
-import { Injectable } from '@angular/core';
-import { MeshBuilder, Mesh, Vector3 } from '@babylonjs/core';
-import { MaterialService } from '../services/material.service';
-import { SceneContext } from '../services/scene.context';
-import { SlotFactory } from '../services/slot.factory';
-import {
-    SlotTransformNode
-} from '../slots/transform-node.slot';
-import { SCALE } from '../constants';
+import {Mesh, MeshBuilder, Vector3} from '@babylonjs/core';
+import {MaterialService} from '../services/material.service';
+import {SceneContext} from '../services/scene.context';
+import {SlotFactory} from '../services/slot.factory';
+import {SlotTransformNode} from '../slots/transform-node.slot';
+import {SCALE} from '../constants';
 import {DecalSlot, removeDecalSlotBehavior} from '../interfaces/decal.interface';
-import {Slotable} from './slotable';
-import {Dimensions} from "./dimensions.model";
-import {SlotType} from "./slot-type.model";
+import {SlotableDecorator} from './slotable.decorator';
+import {Dimensions} from './dimensions.model';
+import {SlotType} from './slot-type.model';
 
-@Slotable()
+@SlotableDecorator()
 export class Ground extends SlotTransformNode implements DecalSlot {
     decal: Mesh;
     mesh: Mesh;
@@ -20,7 +17,7 @@ export class Ground extends SlotTransformNode implements DecalSlot {
     constructor(
         scene: SceneContext,
         factory: SlotFactory,
-        private readonly materialService: MaterialService
+        private readonly materialService: MaterialService,
     ) {
         super(scene, factory);
     }
@@ -28,8 +25,8 @@ export class Ground extends SlotTransformNode implements DecalSlot {
     init(dimensions: Dimensions, name: string, type: SlotType) {
         this.mesh = MeshBuilder.CreateGround(
             'ground',
-            { width: dimensions.width, height: dimensions.height },
-            this.sceneContext.scene
+            {width: dimensions.width, height: dimensions.height},
+            this.sceneContext.scene,
         );
         this.mesh.receiveShadows = true;
         this.mesh.material = this.materialService.getGroundMaterial();
@@ -48,7 +45,7 @@ export class Ground extends SlotTransformNode implements DecalSlot {
                     .add(Vector3.Backward().scale(3 * SCALE)),
                 new Vector3(0, 1, 0),
                 new Vector3(10, 10, 10),
-                0
+                0,
             );
             this.decal.rotate(new Vector3(0, 0, 1), -1.57);
             this.decal.material = this.materialService.getGroundDecal();

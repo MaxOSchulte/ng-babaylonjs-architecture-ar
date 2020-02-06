@@ -4,7 +4,7 @@ import {ACTIVE_MATERIAL_PREFIX, MATERIAL_POSTFIX} from '../constants';
 import {SceneContext} from './scene.context';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class MaterialService {
     private readonly materials: { [key: string]: StandardMaterial } = {};
@@ -23,13 +23,13 @@ export class MaterialService {
 
     deactivateBoxMaterials(): void {
         Object.keys(this.boxMaterials).forEach(
-            key => (this.boxMaterials[key].alpha = 0.5)
+            key => (this.boxMaterials[key].alpha = 0.5),
         );
     }
 
     activateBoxMaterials(): void {
         Object.keys(this.boxMaterials).forEach(
-            key => (this.boxMaterials[key].alpha = 1)
+            key => (this.boxMaterials[key].alpha = 1),
         );
     }
 
@@ -49,8 +49,8 @@ export class MaterialService {
             activeMaterial.name.substr(
                 0,
                 activeMaterial.name.indexOf(
-                    MATERIAL_POSTFIX + ACTIVE_MATERIAL_PREFIX
-                )
+                    MATERIAL_POSTFIX + ACTIVE_MATERIAL_PREFIX,
+                ),
             )
             ];
     }
@@ -59,20 +59,20 @@ export class MaterialService {
         if (!this.materials.ground) {
             const mat = new StandardMaterial(
                 'matGround',
-                this.sceneContext.scene
+                this.sceneContext.scene,
             );
             // tslint:disable-next-line:max-line-length
             mat.diffuseTexture = new Texture(
                 '/assets/textures/floor/Concrete_panels_001_SD/Concrete_Panels_001_COLOR.jpg',
-                this.sceneContext.scene
+                this.sceneContext.scene,
             );
             mat.ambientTexture = new Texture(
                 '/assets/textures/floor/Concrete_panels_001_SD/Concrete_Panels_001_OCC.jpg',
-                this.sceneContext.scene
+                this.sceneContext.scene,
             );
             mat.specularTexture = new Texture(
                 '/assets/textures/floor/Concrete_panels_001_SD/Concrete_Panels_001_ROUGH.jpg',
-                this.sceneContext.scene
+                this.sceneContext.scene,
             );
             (mat.diffuseTexture as any).uScale = 100;
             (mat.diffuseTexture as any).vScale = 100;
@@ -86,11 +86,11 @@ export class MaterialService {
         if (!this.materials.groundDecal) {
             const decalMaterial = new StandardMaterial(
                 'decalGround' + MATERIAL_POSTFIX,
-                this.sceneContext.scene
+                this.sceneContext.scene,
             );
             decalMaterial.diffuseTexture = new Texture(
                 '/assets/tt_logo.png',
-                this.sceneContext.scene
+                this.sceneContext.scene,
             );
             decalMaterial.diffuseTexture.hasAlpha = true;
             decalMaterial.zOffset = -2;
@@ -103,7 +103,7 @@ export class MaterialService {
         if (!this.boxMaterials.boxLight) {
             const material = new StandardMaterial(
                 'boxLight' + MATERIAL_POSTFIX,
-                this.sceneContext.scene
+                this.sceneContext.scene,
             );
             material.emissiveColor = new Color3(0.6, 0.7, 0.6);
             this.boxMaterials.boxLight = material;
@@ -115,7 +115,7 @@ export class MaterialService {
         if (!this.materials.bulb) {
             const mat = new StandardMaterial(
                 'bulb' + MATERIAL_POSTFIX,
-                this.sceneContext.scene
+                this.sceneContext.scene,
             );
             // tslint:disable-next-line:max-line-length
             mat.emissiveColor = new Color3(255, 255, 150);
@@ -128,11 +128,11 @@ export class MaterialService {
         if (!this.materials.decal) {
             const decalMaterial = new StandardMaterial(
                 'decal' + MATERIAL_POSTFIX,
-                this.sceneContext.scene
+                this.sceneContext.scene,
             );
             decalMaterial.diffuseTexture = new Texture(
                 '/assets/textures/qr.png',
-                this.sceneContext.scene
+                this.sceneContext.scene,
             );
             decalMaterial.diffuseTexture.hasAlpha = false;
             decalMaterial.zOffset = -3;
@@ -145,23 +145,23 @@ export class MaterialService {
         if (!this.boxMaterials.box) {
             const mat = new StandardMaterial(
                 'box' + MATERIAL_POSTFIX,
-                this.sceneContext.scene
+                this.sceneContext.scene,
             );
             mat.diffuseTexture = new Texture(
                 '/assets/textures/pexels/pexels-photo-168442.jpg',
-                this.sceneContext.scene
+                this.sceneContext.scene,
             );
             mat.bumpTexture = new Texture(
                 '/assets/textures/wood1/Wood_020_normal.jpg',
-                this.sceneContext.scene
+                this.sceneContext.scene,
             );
             mat.ambientTexture = new Texture(
                 '/assets/textures/wood1/Wood_020_ambientOcclusion.jpg',
-                this.sceneContext.scene
+                this.sceneContext.scene,
             );
             mat.specularTexture = new Texture(
                 '/assets/textures/wood1/Wood_020_height.png',
-                this.sceneContext.scene
+                this.sceneContext.scene,
             );
             mat.specularColor = new Color3(0.2, 0.2, 0.2);
             this.boxMaterials.box = mat;
@@ -172,11 +172,11 @@ export class MaterialService {
     private getAlternativeBoxOne() {
         if (!this.boxMaterials.boxAlternative) {
             const mat = this.getBaseBox().clone(
-                'boxAlternative' + MATERIAL_POSTFIX
+                'boxAlternative' + MATERIAL_POSTFIX,
             );
             mat.diffuseTexture = new Texture(
                 '/assets/textures/pexels/wood-timber-brown-lumber-139306.jpg',
-                this.sceneContext.scene
+                this.sceneContext.scene,
             );
             this.boxMaterials.boxAlternative = mat;
         }

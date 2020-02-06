@@ -4,6 +4,7 @@ import {BoxSlot} from '../slots/box.slot';
 
 export interface Fillable {
     readonly meshes?: Mesh[];
+
     fillSlot(meshes: SlotTransformNode);
 }
 

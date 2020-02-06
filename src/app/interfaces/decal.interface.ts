@@ -1,11 +1,11 @@
 import {Mesh, Vector3} from '@babylonjs/core';
 import {SlotTransformNode} from '../slots/transform-node.slot';
-import {Dimensions} from "../base/dimensions.model";
 
 export interface DecalSlot {
     decal: Mesh;
     meshes?: Mesh[]; // TODO cut better interfaces
     removeDecal: () => void;
+
     addDecal(parent: SlotTransformNode);
 }
 

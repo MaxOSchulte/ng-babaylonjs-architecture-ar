@@ -12,8 +12,8 @@ import {MaterialService} from './services/material.service';
 import {provideSlot} from './services/slot.factory';
 import {ContainerSlot} from './slots/container.slot';
 import {BoxSlot} from './slots/box.slot';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SearchComponent } from './ui/search/search.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {SearchComponent} from './ui/search/search.component';
 import {SearchContext} from './services/search.context';
 
 @NgModule({
@@ -37,4 +37,5 @@ import {SearchContext} from './services/search.context';
     ],
     bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+}

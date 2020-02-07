@@ -124,34 +124,34 @@ export class AppComponent implements OnDestroy {
     }
 
     requestTouch() {
-     //   this.orientationCam = !this.scene.enableOrientationCamera(false, this.canvasRef);
+        this.orientationCam = !this.scene.enableOrientationCamera(false, this.canvasRef);
     }
 
     // checks must be as "near" as possible at the event source
     requestOrientation() {
-    //     if (this.orientationCam) {
-    //         return this.requestTouch();
-    //     }
-    //     // @ts-ignore
-    //     if (typeof DeviceMotionEvent.requestPermission === 'function') {
-    //         // @ts-ignore
-    //         DeviceMotionEvent.requestPermission().then(() => alert('motion granted'))
-    //             .catch(console.error);
-    //     }
-    //
-    //     // @ts-ignore
-    //     if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-    //         // @ts-ignore
-    //         DeviceMotionEvent.requestPermission()
-    //             .then(permissionState => {
-    //                 if (permissionState === 'granted') {
-    //                     alert('orientation granted');
-    //                     this.orientationCam = this.scene.enableOrientationCamera(true, this.canvasRef);
-    //                 }
-    //             })
-    //             .catch(console.error);
-    //     } else {
-    //         alert('Device does not support motion input');
-    //     }
+        if (this.orientationCam) {
+            return this.requestTouch();
+        }
+        // @ts-ignore
+        if (typeof DeviceMotionEvent.requestPermission === 'function') {
+            // @ts-ignore
+            DeviceMotionEvent.requestPermission().then(() => alert('motion granted'))
+                .catch(console.error);
+        }
+
+        // @ts-ignore
+        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+            // @ts-ignore
+            DeviceMotionEvent.requestPermission()
+                .then(permissionState => {
+                    if (permissionState === 'granted') {
+                        alert('orientation granted');
+                        this.orientationCam = this.scene.enableOrientationCamera(true, this.canvasRef);
+                    }
+                })
+                .catch(console.error);
+        } else {
+            alert('Device does not support motion input');
+        }
     }
 }
